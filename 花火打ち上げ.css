@@ -1,0 +1,16 @@
+@charset “utf-8”;
+
+body {background-color: #000000}
+
+/* h1 */
+h1 {
+	color: rgb(255, 255, 255);
+	font-family: 'DotGothic16', sans-serif;
+	font-size: 80px;
+}
+/* h2 */
+h2 {
+	color: rgb(255, 255, 255);
+	font-family: 'DotGothic16', sans-serif;
+	font-size: 20px;
+}
