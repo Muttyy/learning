@@ -7,8 +7,10 @@
   let tc;
   let now_col1;
   let now_col2;
-  let now_col_list = [];
   let next_col_list = [];
+  let c_idx_1, c_idx_2;
+  let interval = 20
+  let r_switch = 0
 
 
   // ウィンドウサイズ変更時
@@ -28,14 +30,48 @@
     
     // 背景色を作る
     for (let i = 0; i < 6; i++){ 
-    	now_col_list.push(parseInt(random(0, 255)));
+    	next_col_list.push(0)//parseInt(random(100,255)));
     }
-    now_col1 = color(now_col_list[0], now_col_list[1], now_col_list[2]);
-    now_col2 = color(now_col_list[4], now_col_list[4], now_col_list[5]);
+    now_col1 = color(next_col_list[0], next_col_list[1], next_col_list[2]);
+    now_col2 = color(next_col_list[4], next_col_list[4], next_col_list[5]);
+    c_idx_1 = parseInt(random(0, 3));
+	c_idx_2 = parseInt(random(3, 6));
   }
 
   // draw：ページが読みこまれた際に実行される、1フレーム（1/60秒）ごとに実行される関数
   function draw() {
+    
+    // ----------- 補間したいよ～ -------------
+    // 背景の移り変わり
+    if (0 === frameCount % 600) {
+	     //背景色を決める(10秒後の色)
+	    let sum = 0
+	    for (let i = 0; i < 6; i++){
+	    	sum = sum + next_col_list[i];
+	    }
+	    if (sum < 500) r_switch = 1;
+	    if (r_switch == 0){
+	    	r_switch = 1;
+	    }
+	    else r_switch = 0;
+	    
+	    c_idx_1 = parseInt(random(0, 3));
+	 	c_idx_2 = parseInt(random(3, 6));
+	 	//console.log(c_idx_1, c_idx_2)
+	 }
+	 
+	 if (r_switch == 0){
+		 next_col_list[c_idx_1] = Math.abs(next_col_list[c_idx_1] + 1);
+		 next_col_list[c_idx_2] = Math.abs(next_col_list[c_idx_2] + 1);
+	 }
+	 else{
+	 	next_col_list[c_idx_1] = Math.abs(next_col_list[c_idx_1] - 1);
+	 	next_col_list[c_idx_2] = Math.abs(next_col_list[c_idx_2] - 1);
+	 }
+	 
+	 
+	 now_col1 = color(next_col_list[0], next_col_list[1], next_col_list[2]);
+	 now_col2 = color(next_col_list[4], next_col_list[4], next_col_list[5]);
     
     // 背景色を設定（p5.jsライブラリのグラデーションつくる機能
     setGradient(0, 0, width, height, now_col1, now_col2, Y_AXIS);
@@ -45,26 +81,14 @@
     this.drawStar();
 
     // 花火を打ち上げる間隔を調整
-    if (0 === frameCount % 10) {// === 厳密等価演算子：文字列が数値に変換されない、frameCount：表示されてきたフレーム数
+    if (width/height < 1){
+    	interval = 60
+    }
+    if (0 === frameCount % interval) {// === 厳密等価演算子：文字列が数値に変換されない、frameCount：表示されてきたフレーム数
       // 打ち上がるスピード
       let speed = random(10, 30);
       fireworks.push(new FireWork(random(width), height, 0, speed, 0.98));
     }
-
-	// ----------- 補間したいよ～ -------------
-    // 背景の移り変わり
-    if (0 === frameCount % 600) {
-	    // 背景色を決める(10秒後の色)
-	    for (let i = 0; i < 6; i++){ 
-	    	next_col_list.push(parseInt(random(0, 255)));
-	    }
-	 }
-	 else{
-		 for(let i = 0; i < 6; i++){
-			 now_col1 = color(now_col_list[0], now_col_list[1], now_col_list[2]);
-			 now_col2 = color(now_col_list[4], now_col_list[4], now_col_list[5]);
-		}
-	 }
 
     for (let fw of fireworks) {
       // 打ち切った花火を処理対象から外す（配列から削除する）
