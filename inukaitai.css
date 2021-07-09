@@ -49,6 +49,7 @@ body {
 }
 
 .menu {
+  font-family: 'Kiwi Maru', serif;
   width:100vw;
   max-width:100%;
   display:flex;
@@ -84,7 +85,7 @@ body {
 .line {
   display:flex;
   position:relative;
-  z-index:3;
+  z-index:1;
 }
 
 .square {
@@ -353,3 +354,40 @@ body {
   }
 }
 
+/* ボタン */
+button{
+  background-color: transparent;
+  color:#fff;
+  border:none;
+  height:5vw;
+  font-size:3vw;
+  padding:0 1em;
+  cursor:pointer;
+  transition:800ms ease all;
+  outline:none;
+}
+button:hover{
+  background-color: transparent;
+  color:#fff;
+}
+button:before,button:after{
+  content:'';
+  position:absolute;
+  top:0;
+  right:0;
+  height:0.5vw;
+  width:0;
+  background: #fff;
+  transition:400ms ease all;
+}
+button:after{
+  position:absolute;
+  right:inherit;
+  top:inherit;
+  left:0;
+  bottom:0;
+}
+button:hover:before,button:hover:after{
+  width:100%;
+  transition:800ms ease all;
+}
