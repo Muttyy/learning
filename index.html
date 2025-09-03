@@ -35,13 +35,18 @@
 
   <style>
 
+      body {
+        background-color: #69BBC1;
+      }
 
       h1 {
           text-align: center;
+          color: #F2E9D6;
           font-size: 5vw;
       }
       h2 {
           text-align: center;
+          color: #F2E9D6;
           font-size: 3vw;
       }
         /* フォーム全体のスタイル */
@@ -52,12 +57,13 @@
             margin: auto;
             border-radius: 10px;
             text-align: left;
-            color: #ffffff;
+            color: #F2E9D6;
         }
         /* ラベルのスタイル */
         label {
             display: block;
             margin-top: 10px;
+            color: #F2E9D6;
             font-weight: bold;
             font-size: 16px;
         }
@@ -66,7 +72,7 @@
             width: 94%; /* box-sizingが適用されるので、paddingやborder込みで100%に収まる */
             padding: 10px;
             margin-top: 5px;
-            border: 2px solid #fff;
+            border: 2px solid #F2E9D6;
             border-radius: 5px;
             font-size: 3vw;
         }
@@ -78,7 +84,7 @@
         /* 送信ボタンのスタイル */
         .submitBtn {
             background-color: #222;
-            border: solid 1px #fff;
+            border: solid 1px #F2E9D6;
             padding: 10px;
             width: 100%;
             border-radius: 5px;
@@ -88,7 +94,7 @@
         /* ホバー時のボタンスタイル */
         .submitBtn:hover {
             color: #222;
-            background-color: #fff;
+            background-color: #F2E9D6;
         }
       @media (min-width: 768px){
         h1 {
@@ -109,77 +115,10 @@
             font-size: 0.8vw;
         }
       }
-      /* --- 🍪注意喚起（AIに作ってもらった） --- */
-    :root{
-      --text: rgba(22,24,27,0.95);
-      --muted: rgba(255,255,255,0.8);
-    }
 
-    /* コンテナ（左下固定） */
-    .gtm-notice {
-      position: fixed;
-      left: 18px;
-      bottom: 18px;
-      max-width: 320px;
-      width: calc(100% - 36px);
-      color: var(--text);
-      padding: var(--padding);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      display: flex;
-      gap: 10px;
-      align-items: start;
-      /*font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic", sans-serif;*/
-      font-family: 'DotGothic16', sans-serif;
-      transform: translateY(8px);
-      opacity: 0;
-      pointer-events: none; /* 一旦隠れ状態でクリックを無効 */
-      transition: transform 220ms cubic-bezier(.2,.9,.3,1), opacity 220ms ease;
-      z-index: 99999;
-    }
-
-    .gtm-notice.show {
-      transform: translateY(0);
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    /* 本文 */
-    .gtm-notice__body{
-      flex:1 1 auto;
-      font-size:13px;
-      line-height:1.35;
-      color: var(--muted);
-    }
-
-    /* 閉じるボタン（右上の×ではなく小さいボタン） */
-    .gtm-notice__close{
-      flex: 0 0 auto;
-      margin-left: 8px;
-      background: transparent;
-      border: none;
-      color: var(--muted);
-      font-size:18px;
-      line-height:1;
-      cursor:pointer;
-      padding:6px;
-      border-radius:8px;
-    }
-    .gtm-notice__close:focus{ outline: 2px solid rgba(8,160,247,0.18); }
-
-    /* 小さめのスクリーン向け */
-    @media (max-width:420px){
-      .gtm-notice{ left: 10px; bottom:10px; max-width: 100%; padding:10px; }
-      .gtm-notice__icon{ flex-basis:40px; height:40px; }
-    }
   </style>
-
-
-	<!--<div>
-	<p><label><span style="color:#ffffff;">色を選択</span> <input id="bgcolor" name="favorite_color" type="color" /> </label><button id="color_button">決定</button></p>
-	</div>-->
 	
-	<h1>Test</h1>
+	<h1>感謝の気持ちを伝えよう</h1>
 
     <div style="text-align:center; margin-top:30px;">
       <form name="qform" action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSeAh3PkdADlFIdCWVgCcHmDSSe239NOmleDR-4Vj3EsfSynGg/formResponse">
@@ -194,85 +133,5 @@
 	<div style="text-align:right;">
 	<p>このウェブページでは、cookieを使用しています。</p>
 	</div>
-
-  <!-- 🍪バナー -->
-  <div id="gtm-notice" class="gtm-notice" role="region" aria-label="GTMの利用についての注意" aria-live="polite" hidden>
-    <div class="gtm-notice__icon" aria-hidden="true">GTM</div>
-    <div class="gtm-notice__body">
-      <div class="gtm-notice__text">このウェブページでは、cookieを使用しています。</div>
-    </div>
-
-    <button class="gtm-notice__close" id="gtm-close" aria-label="閉じる">×</button>
-  </div>
-
-</body>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.1.9/p5.min.js"></script>
-<script>
-
-  (function(){
-      // --- 設定 ---
-      const STORAGE_KEY = 'gtm_notice_dismissed_at';
-      const DISMISS_DAYS = 30; // 閉じたら何日間再表示しないか（0 にすると永続）
-
-      const notice = document.getElementById('gtm-notice');
-      const btnClose = document.getElementById('gtm-close');
-      const btnHideForNow = document.getElementById('gtm-hide-for-now');
-      const btnLearnMore = document.getElementById('gtm-learn-more');
-      const privacyLink = document.getElementById('gtm-privacy-link');
-
-      // 表示判定
-      function shouldShow(){
-        try{
-          const raw = localStorage.getItem(STORAGE_KEY);
-          if(!raw) return true;
-          const ts = Number(raw);
-          if(!ts) return true;
-          if(DISMISS_DAYS <= 0) return false; // 永続的に非表示にしたい場合
-          const ms = DISMISS_DAYS * 24 * 60 * 60 * 1000;
-          return (Date.now() - ts) > ms;
-        }catch(e){
-          // localStorage が使えない場合は常に表示
-          return true;
-        }
-      }
-
-      function dismiss(){
-        try{ localStorage.setItem(STORAGE_KEY, String(Date.now())); }catch(e){}
-        hide();
-      }
-
-      function hide(){
-        notice.classList.remove('show');
-        // 完全にDOMから消すのではなく、hidden 属性でスクリーンリーダにも伝える
-        setTimeout(()=> notice.setAttribute('hidden',''), 300);
-      }
-
-      function show(){
-        notice.removeAttribute('hidden');
-        // 小さいタイミング差で class を付けてアニメーション
-        requestAnimationFrame(()=> notice.classList.add('show'));
-      }
-
-      // イベント
-      btnClose.addEventListener('click', function(){ dismiss(); });
-
-      // キーボードアクセス用：Esc で閉じる
-      notice.addEventListener('keydown', function(ev){ if(ev.key === 'Escape') dismiss(); });
-
-      // 初回判定
-      if(shouldShow()){
-        // DOMロード直後に見せたいので少し遅らせる（不意なフラッシュを防ぐ）
-        window.addEventListener('load', ()=> setTimeout(show, 300));
-      }
-
-      // アクセシビリティ: フォーカスをcloseに当てると戻るように
-      btnClose.addEventListener('keydown', function(e){ if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); dismiss(); } });
-
-      // --- 追加メモ（開発者向け） ---
-      // localStorage の値をクリアすると再表示されます:
-      // localStorage.removeItem(STORAGE_KEY);
-
-    })();
 	
   
